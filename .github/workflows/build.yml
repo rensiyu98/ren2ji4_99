@@ -12,18 +12,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: macos-latest
-            args: >-
-              --target aarch64-apple-darwin
-          - platform: macos-latest
-            args: >-
-              --target x86_64-apple-darwin
-          - platform: ubuntu-22.04
-            args: >-
-
+          # 汉化版只构建 Windows，其余平台已于本地化时移除
           - platform: windows-latest
             args: >-
-    
+
 
     runs-on: ${{ matrix.platform }}
     steps:
