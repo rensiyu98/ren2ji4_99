@@ -87,7 +87,7 @@ impl OperatingSystem {
         Ok(match self {
             OperatingSystem::WINDOWS => ";",
             OperatingSystem::LINUX | OperatingSystem::OSX => ":",
-            _ => bail!("Invalid OS"),
+            _ => bail!("不支持的操作系统"),
         })
     }
 
@@ -96,7 +96,7 @@ impl OperatingSystem {
             OperatingSystem::WINDOWS => "windows",
             OperatingSystem::LINUX => "linux",
             OperatingSystem::OSX => "osx",
-            _ => bail!("Invalid OS"),
+            _ => bail!("不支持的操作系统"),
         })
     }
 
@@ -105,7 +105,7 @@ impl OperatingSystem {
             OperatingSystem::WINDOWS => "windows",
             OperatingSystem::LINUX => "linux",
             OperatingSystem::OSX => "mac",
-            _ => bail!("Invalid OS"),
+            _ => bail!("不支持的操作系统"),
         })
     }
 
@@ -114,7 +114,7 @@ impl OperatingSystem {
             OperatingSystem::WINDOWS => "windows",
             OperatingSystem::LINUX => "linux",
             OperatingSystem::OSX => "macos",
-            _ => bail!("Invalid OS"),
+            _ => bail!("不支持的操作系统"),
         })
     }
 
@@ -123,7 +123,7 @@ impl OperatingSystem {
             OperatingSystem::WINDOWS => "windows",
             OperatingSystem::LINUX => "linux",
             OperatingSystem::OSX => "macos",
-            _ => bail!("Unsupported operating system for Zulu runtime"),
+            _ => bail!("Zulu 运行时不支持该操作系统"),
         })
     }
 
@@ -131,7 +131,7 @@ impl OperatingSystem {
         Ok(match self {
             OperatingSystem::WINDOWS => "zip",
             OperatingSystem::LINUX | OperatingSystem::OSX => "tar.gz",
-            _ => bail!("Invalid OS"),
+            _ => bail!("不支持的操作系统"),
         })
     }
 }
@@ -149,7 +149,7 @@ impl Architecture {
             Architecture::X64 => "x64",
             Architecture::ARM => "arm",
             Architecture::AARCH64 => "aarch64",
-            _ => bail!("Invalid architecture"),
+            _ => bail!("不支持的架构"),
         })
     }
     pub fn get_zulu_name(&self) -> Result<&'static str> {
@@ -158,7 +158,7 @@ impl Architecture {
             Architecture::X64 => "x86_64",
             Architecture::ARM => "arm",
             Architecture::AARCH64 => "aarch64",
-            _ => bail!("Unsupported architecture for Zulu runtime"),
+            _ => bail!("Zulu 运行时不支持该架构"),
         })
     }
 }

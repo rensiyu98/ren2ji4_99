@@ -7,7 +7,7 @@
 </script>
 
 <button class="button-close" type="button" on:click={handleClick}>
-    <img class="icon" src="img/icon/icon-button-close.svg" alt="close">
+    <img class="icon" src="img/icon/icon-button-close.svg" alt="关闭">
 </button>
 
 <style>

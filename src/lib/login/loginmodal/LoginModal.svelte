@@ -31,18 +31,18 @@
         const qr = qrcode(0, "M");
         qr.addData(text);
         qr.make();
-        return qr.createSvgTag({cellSize: 4, margin: 0, alt: "QR code to sign in with Microsoft"});
+        return qr.createSvgTag({cellSize: 4, margin: 0, alt: "使用 Microsoft 登录的二维码"});
     }
 
     async function handleOfflineLoginClick() {
         if (offlineUsername.length > 16 || offlineUsername.length < 1) {
-            alert("Username must be between 1 and 16 characters long.");
+            alert("用户名长度必须在 1 到 16 个字符之间。");
             return;
         }
 
         const usernameRegex = /^[a-zA-Z0-9_]+$/;
         if (!usernameRegex.test(offlineUsername)) {
-            alert("Username can only contain letters, numbers, and underscores.");
+            alert("用户名只能包含字母、数字和下划线。");
             return;
         }
 
@@ -108,10 +108,10 @@
 
     function reportMicrosoftError(err) {
         alert(
-            "Microsoft authentication failed.\n\n" +
+            "Microsoft 身份验证失败。\n\n" +
              err + "\n\n" +
-            "Should you be unable to resolve this issue, please use the 'Play offline' login option " +
-            "and attempt to log in through the client's inbuilt account manager."
+            "如果无法解决此问题，请使用“离线登录”选项，" +
+            "并尝试通过客户端内置的账户管理器登录。"
         );
     }
 
@@ -122,56 +122,55 @@
 
 <div class="modal">
     {#if view === "webview"}
-        <div class="title">Microsoft sign-in</div>
+        <div class="title">Microsoft 登录</div>
 
         <RippleLoader></RippleLoader>
-        <div class="hint">Finish signing in in the popup window.</div>
+        <div class="hint">请在弹出窗口中完成登录。</div>
 
-        <ModalButton text="Cancel" primary={false} on:click={cancelWebviewLogin} />
+        <ModalButton text="取消" primary={false} on:click={cancelWebviewLogin} />
     {:else if view === "code"}
-        <div class="title">Sign in with a code</div>
+        <div class="title">使用代码登录</div>
 
         {#if deviceCode}
             <div class="code-box">
                 <span class="code-text">{deviceCode.userCode}</span>
-                <button class="copy-button" type="button" on:click={copyDeviceCode}>{codeCopied ? "COPIED" : "COPY"}</button>
+                <button class="copy-button" type="button" on:click={copyDeviceCode}>{codeCopied ? "已复制" : "复制"}</button>
             </div>
 
             <div class="hint">
-                Open
-                <button class="inline-link" type="button" on:click={() => openUrl(deviceCode.verificationUri)}>{deviceCode.verificationUri.replace('https://', '')}</button>
-                on any device and enter the code above.
+                在任意设备上打开
+                <button class="inline-link" type="button" on:click={() => openUrl(deviceCode.verificationUri)}>{deviceCode.verificationUri.replace('https://', '')}</button>，并输入上方代码。
             </div>
 
-            <div class="divider">or</div>
+            <div class="divider">或</div>
 
             <div class="qr-row">
                 <div class="qr-code">{@html deviceCodeQr}</div>
                 <div class="qr-copy">
-                    <span class="qr-copy-title">Scan the code</span>
-                    <span class="qr-copy-desc">Opens the page with the code already filled in.</span>
+                    <span class="qr-copy-title">扫码登录</span>
+                    <span class="qr-copy-desc">打开已自动填入代码的页面。</span>
                 </div>
             </div>
 
             <div class="waiting">
                 <div class="waiting-dot"></div>
-                <span>Waiting for confirmation</span>
+                <span>等待确认</span>
             </div>
         {:else}
-            <div class="hint">Requesting a sign-in code&hellip;</div>
+            <div class="hint">正在请求登录代码&hellip;</div>
         {/if}
 
-        <ModalButton text="Cancel" primary={false} on:click={cancelDeviceCode} />
+        <ModalButton text="取消" primary={false} on:click={cancelDeviceCode} />
     {:else}
-        <div class="title">Log in</div>
+        <div class="title">登录</div>
 
-        <ModalButton text="Microsoft login" primary={true} on:click={handleMicrosoftWebviewLoginClick} />
-        <ModalButton text="Microsoft device login" primary={false} on:click={startDeviceCodeLogin} />
+        <ModalButton text="Microsoft 登录" primary={true} on:click={handleMicrosoftWebviewLoginClick} />
+        <ModalButton text="Microsoft 设备代码登录" primary={false} on:click={startDeviceCodeLogin} />
 
-        <div class="divider">or</div>
+        <div class="divider">或</div>
 
-        <ModalInput placeholder="Username" icon="person" characterLimit={16} bind:value={offlineUsername} />
-        <ModalButton text="Offline login" primary={false} on:click={handleOfflineLoginClick} />
+        <ModalInput placeholder="用户名" icon="person" characterLimit={16} bind:value={offlineUsername} />
+        <ModalButton text="离线登录" primary={false} on:click={handleOfflineLoginClick} />
     {/if}
 </div>
 

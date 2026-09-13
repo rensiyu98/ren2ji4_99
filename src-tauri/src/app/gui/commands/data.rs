@@ -35,7 +35,7 @@ pub(crate) async fn store_options(options: Options) -> Result<(), String> {
     options
         .store(config_dir)
         .await
-        .map_err(|e| format!("unable to store config data: {:?}", e))?;
+        .map_err(|e| format!("无法保存配置数据：{:?}", e))?;
     Ok(())
 }
 
@@ -63,7 +63,7 @@ pub(crate) async fn clear_data(options: Options) -> Result<(), String> {
         .filter(|dir| dir.exists())
         .map(std::fs::remove_dir_all)
         .collect::<Result<Vec<_>, _>>()
-        .map_err(|e| format!("unable to clear data: {:?}", e))?;
+        .map_err(|e| format!("无法清除数据：{:?}", e))?;
     Ok(())
 }
 
@@ -72,7 +72,7 @@ pub(crate) async fn default_data_folder_path() -> Result<String, String> {
     let data_directory = LAUNCHER_DIRECTORY.data_dir().to_str();
 
     match data_directory {
-        None => Err("unable to get data folder path".to_string()),
+        None => Err("无法获取数据目录路径".to_string()),
         Some(path) => Ok(path.to_string()),
     }
 }

@@ -70,7 +70,7 @@
             console.error("Failed to load options:", e);
 
             error = {
-                message: "Failed to load launcher options",
+                message: "加载启动器选项失败",
                 error: e
             };
         }
@@ -85,7 +85,7 @@
         } catch (e) {
             console.error("Failed to set up API client:", e);
             error = {
-                message: "Failed to establish connection with LiquidBounce API",
+                message: "无法与 LiquidBounce API 建立连接",
                 error: e
             };
         }
@@ -97,7 +97,7 @@
         } catch (e) {
             // We want to continue allowing the user to use the launcher even 
             // if the system check fails
-            alert("Looks like there is a configuration issue with your system.\n\n" + e);
+            alert("看起来你的系统存在配置问题。\n\n" + e);
         }
     }
 

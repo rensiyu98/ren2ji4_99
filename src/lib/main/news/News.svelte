@@ -24,7 +24,7 @@
             <div class="date">{new Date(date).toLocaleDateString()}</div>
         </div>
         <div class="description">{description}</div>
-        <button class="button-show-news" type="button" on:click={handleShowNews}>Read more</button>
+        <button class="button-show-news" type="button" on:click={handleShowNews}>阅读更多</button>
     </div>
 </div>
 

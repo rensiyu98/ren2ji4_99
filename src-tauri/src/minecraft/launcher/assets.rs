@@ -35,7 +35,7 @@ pub async fn setup_assets<'a, D: Send + Sync>(
         .asset_index_location
         .as_ref()
         .ok_or_else(|| {
-            LauncherError::InvalidVersionProfile("Asset index unspecified".to_string())
+            LauncherError::InvalidVersionProfile("未指定资源索引".to_string())
         })?;
     let asset_index = asset_index_location
         .load_asset_index(&indexes_folder)
@@ -48,7 +48,7 @@ pub async fn setup_assets<'a, D: Send + Sync>(
     let assets_downloaded = Arc::new(AtomicU64::new(0));
     let asset_max = asset_objects_to_download.len() as u64;
 
-    launcher_data.progress_update(ProgressUpdate::set_label("Checking assets..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("正在检查资源文件..."));
     launcher_data.progress_update(ProgressUpdate::set_for_step(
         ProgressUpdateSteps::DownloadAssets,
         0,

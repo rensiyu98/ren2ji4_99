@@ -24,7 +24,7 @@
     </div>
 
     <button class="button-scroll">
-        <img class="icon" src="img/icon/icon-news-scroll.svg" alt="scroll" />
+        <img class="icon" src="img/icon/icon-news-scroll.svg" alt="滚动" />
     </button>
 
     <div class="social-bar-wrapper">

@@ -3,38 +3,38 @@
 
     const facts = [
         {
-            title: "Blatant or Closet Cheating - You Decide!",
-            description: "LiquidBounce comes with many built-in blatant and closet cheats, making it the perfect all-in-one client.",
+            title: "张扬作弊还是低调作弊，你说了算！",
+            description: "LiquidBounce 内置大量张扬与低调的作弊功能，是全能客户端的不二之选。",
         },
         {
-            title: "Multi-Version Support",
-            description: "With the integrated version changer, you can easily switch between different Minecraft versions without restarting the game!",
+            title: "多版本支持",
+            description: "借助内置的版本切换器，无需重启游戏即可在不同 Minecraft 版本间轻松切换！",
         },
         {
-            title: "Multi-Server Support",
-            description: "LiquidBounce provides features and bypasses for many different servers."
+            title: "多服务器支持",
+            description: "LiquidBounce 为众多不同服务器提供功能与反作弊绕过。"
         },
         {
-            title: "Auto Config System",
-            description: "LiquidBounce's Auto Config System will automatically apply the best settings for you when joining a well-known server.",
+            title: "自动配置系统",
+            description: "加入知名服务器时，LiquidBounce 的自动配置系统会自动为你应用最佳设置。",
         },
         {
-            title: "Customizable",
-            description: "LiquidBounce's UI is fully customizable. You can change out the entire UI to your liking.",
+            title: "随心定制",
+            description: "LiquidBounce 的界面完全可定制，你可以按自己的喜好更换整套界面。",
         },
         {
-            title: "6.000.000 Total Downloads",
+            title: "累计下载 600 万次",
             description:
-                "LiquidBounce is one of the most popular hacked clients of all time.",
+                "LiquidBounce 是有史以来最受欢迎的作弊客户端之一。",
         },
         {
-            title: "Free & Open Source",
-            description: "LiquidBounce's source code is publicly available.",
+            title: "免费且开源",
+            description: "LiquidBounce 的源代码公开可查。",
         },
         {
             title: "ScriptAPI",
             description:
-                "LiquidBounce's Script API allows users to write their own modules and commands.",
+                "LiquidBounce 的 Script API 让用户可以编写自己的模块和命令。",
         },
     ];
 
@@ -72,14 +72,14 @@
                     class="button-switch-fact"
                     on:click={handlePrevClick}
                 >
-                    <img src="img/icon/icon-prev.svg" alt="prev" />
+                    <img src="img/icon/icon-prev.svg" alt="上一个" />
                 </button>
                 <button
                     type="button"
                     class="button-switch-fact"
                     on:click={handleNextClick}
                 >
-                    <img src="img/icon/icon-next.svg" alt="next" />
+                    <img src="img/icon/icon-next.svg" alt="下一个" />
                 </button>
             </div>
         </div>

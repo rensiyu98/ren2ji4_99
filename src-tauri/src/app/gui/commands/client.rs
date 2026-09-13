@@ -49,7 +49,7 @@ pub(crate) async fn request_builds(client: Client, release: bool) -> Result<Vec<
             warn!("Failed to request builds. Retrying in {:?}. Error: {}", dur, err);
         })
         .await
-        .map_err(|e| format!("unable to request builds: {:?}", e))?;
+        .map_err(|e| format!("无法请求构建列表：{:?}", e))?;
 
     Ok(builds)
 }
@@ -62,7 +62,7 @@ pub(crate) async fn fetch_blog_posts(client: Client, page: u32) -> Result<Pagina
             warn!("Failed to fetch blog posts. Retrying in {:?}. Error: {}", dur, err);
         })
         .await
-        .map_err(|e| format!("unable to fetch blog posts: {:?}", e))
+        .map_err(|e| format!("无法获取博客文章：{:?}", e))
 }
 
 #[tauri::command]
@@ -73,7 +73,7 @@ pub(crate) async fn fetch_changelog(client: Client, build_id: u32) -> Result<Cha
             warn!("Failed to fetch changelog. Retrying in {:?}. Error: {}", dur, err);
         })
         .await
-        .map_err(|e| format!("unable to fetch changelog: {:?}", e))
+        .map_err(|e| format!("无法获取更新日志：{:?}", e))
 }
 
 #[tauri::command]
@@ -88,7 +88,7 @@ pub(crate) async fn request_mods(
             warn!("Failed to request mods. Retrying in {:?}. Error: {}", dur, err);
         })
         .await
-        .map_err(|e| format!("unable to request mods: {:?}", e))?;
+        .map_err(|e| format!("无法请求模组列表：{:?}", e))?;
 
     Ok(mods)
 }
@@ -110,17 +110,17 @@ pub(crate) async fn get_custom_mods(
     let mut mods = vec![];
     let mut mods_read = fs::read_dir(&mod_cache_path)
         .await
-        .map_err(|e| format!("unable to read custom mods: {:?}", e))?;
+        .map_err(|e| format!("无法读取自定义模组：{:?}", e))?;
 
     while let Some(entry) = mods_read
         .next_entry()
         .await
-        .map_err(|e| format!("unable to read custom mods: {:?}", e))?
+        .map_err(|e| format!("无法读取自定义模组：{:?}", e))?
     {
         let file_type = entry
             .file_type()
             .await
-            .map_err(|e| format!("unable to read custom mods: {:?}", e))?;
+            .map_err(|e| format!("无法读取自定义模组：{:?}", e))?;
         let file_name = entry.file_name().to_str().unwrap().to_string();
 
         if file_type.is_file() && file_name.ends_with(".jar") {
@@ -159,11 +159,11 @@ pub(crate) async fn install_custom_mod(
 
         fs::copy(path, dest_path)
             .await
-            .map_err(|e| format!("unable to copy custom mod: {:?}", e))?;
+            .map_err(|e| format!("无法复制自定义模组：{:?}", e))?;
         return Ok(());
     }
 
-    Err("unable to copy custom mod: invalid path".to_string())
+    Err("无法复制自定义模组：路径无效".to_string())
 }
 
 #[tauri::command]
@@ -186,7 +186,7 @@ pub(crate) async fn delete_custom_mod(
     if mod_path.exists() {
         fs::remove_file(mod_path)
             .await
-            .map_err(|e| format!("unable to delete custom mod: {:?}", e))?;
+            .map_err(|e| format!("无法删除自定义模组：{:?}", e))?;
     }
 
     Ok(())
@@ -260,15 +260,15 @@ pub(crate) async fn run_client(
     let minecraft_account = options
         .start_options
         .minecraft_account
-        .ok_or("no account selected")?;
+        .ok_or("未选择账户")?;
     let (account_name, uuid, token, user_type) = match minecraft_account {
         MinecraftAccount::MsaAccount { state, name, id } => {
             let manager = JavaAuthManager::from_json(HTTP_CLIENT.clone(), &state)
-                .map_err(|e| format!("unable to load account: {}", e))?;
+                .map_err(|e| format!("无法加载账户：{}", e))?;
             let token = manager
                 .minecraft_token()
                 .await
-                .map_err(|e| format!("unable to refresh account: {}", e))?;
+                .map_err(|e| format!("无法刷新账户：{}", e))?;
             (name, id.to_string(), token.access_token, "msa".to_string())
         }
         MinecraftAccount::OfflineAccount { name, id, .. } => {
@@ -289,16 +289,16 @@ pub(crate) async fn run_client(
 
     if runner_instance
         .lock()
-        .map_err(|e| format!("unable to lock runner instance: {:?}", e))?
+        .map_err(|e| format!("无法锁定运行实例：{:?}", e))?
         .is_some()
     {
-        return Err("client is already running".to_string());
+        return Err("客户端已在运行".to_string());
     }
 
     info!("Loading launch manifest...");
     let launch_manifest = client.fetch_launch_manifest(build_id).await.map_err(|e| {
         format!(
-            "failed to fetch launch manifest of build {}: {:?}",
+            "获取构建 {} 的启动清单失败：{:?}",
             build_id, e
         )
     })?;
@@ -307,7 +307,7 @@ pub(crate) async fn run_client(
 
     *runner_instance
         .lock()
-        .map_err(|e| format!("unable to lock runner instance: {:?}", e))? = Some(RunnerInstance {
+        .map_err(|e| format!("无法锁定运行实例：{:?}", e))? = Some(RunnerInstance {
         terminator: terminator_tx,
     });
 
@@ -361,7 +361,7 @@ pub(crate) async fn run_client(
                         shareable_window.lock().unwrap().show().unwrap();
                     }
 
-                    let message = format!("An error occured:\n\n{:?}", e);
+                    let message = format!("发生错误：\n\n{:?}", e);
                     shareable_window
                         .lock()
                         .unwrap()
@@ -372,7 +372,7 @@ pub(crate) async fn run_client(
 
                 *copy_of_runner_instance
                     .lock()
-                    .map_err(|e| format!("unable to lock runner instance: {:?}", e))
+                    .map_err(|e| format!("无法锁定运行实例：{:?}", e))
                     .unwrap() = None;
                 shareable_window
                     .lock()
@@ -390,7 +390,7 @@ pub(crate) async fn terminate(app_state: tauri::State<'_, AppState>) -> Result<(
     let mut lck = app_state
         .runner_instance
         .lock()
-        .map_err(|e| format!("unable to lock runner instance: {:?}", e))?;
+        .map_err(|e| format!("无法锁定运行实例：{:?}", e))?;
 
     if let Some(inst) = lck.take() {
         info!("Sending sigterm");

@@ -153,7 +153,7 @@ pub async fn launch<D: Send + Sync>(
     let features: HashSet<String> = HashSet::new();
     let mut class_path = String::new();
 
-    launcher_data.progress_update(ProgressUpdate::set_label("Setting up..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("正在准备..."));
 
     launcher_data.log(&format!(
         "Determined OS to be {} {}",
@@ -178,11 +178,11 @@ pub async fn launch<D: Send + Sync>(
         &launcher_data,
     )
     .await
-    .context("Failed to load JRE")?;
+    .context("加载 JRE 失败")?;
 
     launcher_data.log(&format!("Java Path: {:?}", java_bin));
     if !java_bin.exists() {
-        bail!("Java binary not found");
+        bail!("找不到 Java 可执行文件");
     }
 
     // Check if json has client download (or doesn't require one)
@@ -194,7 +194,7 @@ pub async fn launch<D: Send + Sync>(
         &mut class_path,
     )
     .await
-    .context("Failed to setup client JAR")?;
+    .context("安装客户端 JAR 失败")?;
 
     // Libraries
     setup_libraries(
@@ -207,7 +207,7 @@ pub async fn launch<D: Send + Sync>(
         &mut class_path,
     )
     .await
-    .context("Failed to setup libraries")?;
+    .context("安装依赖库失败")?;
 
     // Assets
     let asset_index_location = setup_assets(
@@ -217,7 +217,7 @@ pub async fn launch<D: Send + Sync>(
         &launcher_data,
     )
     .await
-    .context("Failed to setup assets")?;
+    .context("安装资源文件失败")?;
 
     // Game
     let java_runtime = JavaRuntime::new(java_bin);
@@ -251,7 +251,7 @@ pub async fn launch<D: Send + Sync>(
             .main_class
             .as_ref()
             .ok_or_else(|| {
-                LauncherError::InvalidVersionProfile("Main class unspecified".to_string())
+                LauncherError::InvalidVersionProfile("未指定主类".to_string())
             })?
             .to_owned(),
     );
@@ -295,12 +295,12 @@ pub async fn launch<D: Send + Sync>(
         })?);
     }
 
-    launcher_data.progress_update(ProgressUpdate::set_label("Launching..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("正在启动..."));
     launcher_data.progress_update(ProgressUpdate::set_to_max());
 
     let mut running_task = java_runtime.execute(mapped, &game_dir).await?;
 
-    launcher_data.progress_update(ProgressUpdate::set_label("Running..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("运行中..."));
 
     if !launching_parameter.keep_launcher_open {
         // Hide launcher window
@@ -367,7 +367,7 @@ fn process_templates<F: Fn(&mut String, &str) -> Result<()>>(
             loop {
                 c = chars.next().ok_or_else(|| {
                     LauncherError::InvalidVersionProfile(
-                        "invalid template, missing '}'".to_string(),
+                        "无效的模板，缺少 '}'".to_string(),
                     )
                 })?;
 
@@ -376,7 +376,7 @@ fn process_templates<F: Fn(&mut String, &str) -> Result<()>>(
                 }
                 if !matches!(c, 'a'..='z' | 'A'..='Z' | '_' | '0'..='9') {
                     return Err(LauncherError::InvalidVersionProfile(format!(
-                        "invalid character in template: '{}'",
+                        "模板中包含无效字符：'{}'",
                         c
                     ))
                     .into());

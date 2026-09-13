@@ -65,7 +65,7 @@ impl JavaDistribution {
                         os_name, os_arch, archive_type
                     )
                 } else {
-                    bail!("GraalVM only supports Java 17+")
+                    bail!("GraalVM 仅支持 Java 17 及以上版本")
                 }
             }
             JavaDistribution::Zulu => {
@@ -114,12 +114,12 @@ async fn fetch_zulu_download_url(jre_version: u32) -> Result<String> {
 
     let packages: Vec<AzulPackage> = response.json().await?;
     if packages.is_empty() {
-        bail!("No Zulu runtime available for Java {} on {}-{}", jre_version, os_param, arch_param);
+        bail!("没有适用于 Java {}（{}-{}）的 Zulu 运行时", jre_version, os_param, arch_param);
     }
 
     packages
         .into_iter()
         .find(|pkg| pkg.latest.unwrap_or(true))
         .map(|pkg| pkg.download_url)
-        .ok_or_else(|| anyhow!("Failed to determine latest Zulu runtime download URL"))
+        .ok_or_else(|| anyhow!("无法确定最新的 Zulu 运行时下载链接"))
 }

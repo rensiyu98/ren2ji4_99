@@ -29,7 +29,7 @@
             dispatch('updateMods');
         } catch (error) {
             console.error("Failed to delete mod:", error);
-            alert(`Failed to delete mod: ${error}`);
+            alert(`删除模组失败：${error}`);
         }
     }
 
@@ -39,7 +39,7 @@
                 directory: false,
                 multiple: true,
                 filters: [{ name: "", extensions: ["jar"] }],
-                title: "Select a custom mod to install"
+                title: "选择要安装的自定义模组"
             });
 
             if (selected) {
@@ -55,19 +55,19 @@
             }
         } catch (error) {
             console.error("Failed to install mod:", error);
-            alert(`Failed to install mod: ${error}`);
+            alert(`安装模组失败：${error}`);
         }
     }
 </script>
 
 <SettingsContainer
-        title="Select version"
+        title="选择版本"
         on:hideSettings={() => dispatch('hide')}
 >
     <SelectSetting
-            title="Build"
+            title="构建"
             items={[
-                { value: -1, text: "Latest" },
+                { value: -1, text: "最新" },
                 ...versionState.builds.map(e => ({
                     value: e.buildId,
                     text: `${e.lbVersion} git-${e.commitId.substring(0, 7)} - ${e.date}`
@@ -77,12 +77,12 @@
             on:change={() => dispatch('updateData')}
     />
     <ToggleSetting
-            title="Show nightly builds"
+            title="显示每日构建"
             bind:value={options.launcher.showNightlyBuilds}
             disabled={false}
             on:change={() => dispatch('updateData')}
     />
-    <SettingWrapper title="Recommended mods">
+    <SettingWrapper title="推荐模组">
         {#each versionState.recommendedMods as mod}
             <ToggleSetting
                     title={mod.name}
@@ -92,10 +92,10 @@
             />
         {/each}
     </SettingWrapper>
-    <SettingWrapper title={`Additional mods - ${versionState.currentBuild?.subsystem ? `${versionState.currentBuild.subsystem.charAt(0).toUpperCase()}${versionState.currentBuild.subsystem.slice(1)}` : ''} ${versionState.currentBuild?.mcVersion}`}>
+    <SettingWrapper title={`附加模组 - ${versionState.currentBuild?.subsystem ? `${versionState.currentBuild.subsystem.charAt(0).toUpperCase()}${versionState.currentBuild.subsystem.slice(1)}` : ''} ${versionState.currentBuild?.mcVersion}`}>
         <div slot="title-element">
             <IconButtonSetting
-                    text="Install"
+                    text="安装"
                     icon="icon-plus"
                     on:click={installMod}
             />

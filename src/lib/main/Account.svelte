@@ -9,15 +9,15 @@
 </script>
 
 <div class="account">
-    <object data="https://avatar.liquidbounce.net/avatar/{uuid}" type="image/png" class="avatar" aria-label="avatar">
-        <img src="img/steve.png" alt=avatar class="avatar"/>
+    <object data="https://avatar.liquidbounce.net/avatar/{uuid}" type="image/png" class="avatar" aria-label="头像">
+        <img src="img/steve.png" alt="头像" class="avatar"/>
     </object>
     <div class="details">
         <div class="username">{username}</div>
         <div class="type">{accountType === "Microsoft" || accountType === "Premium" ? "Microsoft" : accountType}</div>
     </div>
     <button class="button-settings" type="button" on:click={() => dispatch("showSettings")} >
-        <img class="icon" src="img/icon/icon-cog.svg" alt="settings">
+        <img class="icon" src="img/icon/icon-cog.svg" alt="设置">
     </button>
 </div>
 

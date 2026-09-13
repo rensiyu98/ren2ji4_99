@@ -76,7 +76,7 @@ pub(crate) async fn client_account_authenticate(client: Client) -> Result<Client
     account
         .update_info(&client)
         .await
-        .map_err(|e| format!("unable to fetch user information: {:?}", e))?;
+        .map_err(|e| format!("无法获取用户信息：{:?}", e))?;
 
     Ok(account)
 }
@@ -86,12 +86,12 @@ pub(crate) async fn client_account_update(client: Client, account: ClientAccount
     let mut account = account
         .renew()
         .await
-        .map_err(|e| format!("unable to update access token: {:?}", e))?;
+        .map_err(|e| format!("无法更新访问令牌：{:?}", e))?;
 
     account
         .update_info(&client)
         .await
-        .map_err(|e| format!("unable to fetch user information: {:?}", e))?;
+        .map_err(|e| format!("无法获取用户信息：{:?}", e))?;
     Ok(account)
 }
 
@@ -102,7 +102,7 @@ pub(crate) async fn refresh(account_data: MinecraftAccount) -> Result<MinecraftA
         // The frontend only logs this to the webview console, which never
         // reaches launcher.log.
         error!("Failed to refresh account: {:?}", e);
-        format!("unable to refresh: {:?}", e)
+        format!("无法刷新账户：{:?}", e)
     })?;
     info!(
         "Account was refreshed - username {}",
@@ -116,5 +116,5 @@ pub(crate) async fn logout(account_data: MinecraftAccount) -> Result<(), String>
     account_data
         .logout()
         .await
-        .map_err(|e| format!("unable to logout: {:?}", e))
+        .map_err(|e| format!("无法退出登录：{:?}", e))
 }

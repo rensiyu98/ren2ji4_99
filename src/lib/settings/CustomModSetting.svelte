@@ -11,7 +11,7 @@
 <div class="custom-mod-setting">
     <ToggleSetting bind:value={value} {title} disabled={false} on:change />
     <button class="button-delete" on:click={() => dispatch("delete", { name: title })}>
-        <img src="img/icon/icon-button-close.svg" alt="delete" title="Remove mod">
+        <img src="img/icon/icon-button-close.svg" alt="delete" title="移除模组">
     </button>
 </div>
 

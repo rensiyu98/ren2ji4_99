@@ -25,11 +25,11 @@ pub async fn load_jre<D: Send + Sync>(
     // Check if distribution supports JRE version
     if !distribution.supports_version(manifest.build.jre_version) {
         return Err(anyhow!(
-            "The selected JRE distribution does not support the required version of Java."
+            "所选 JRE 发行版不支持所需的 Java 版本。"
         ));
     }
 
-    launcher_data.progress_update(ProgressUpdate::set_label("Checking for JRE..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("正在检查 JRE..."));
 
     if let Ok(path) =
         find_java_binary(runtimes_folder, distribution, &manifest.build.jre_version).await
@@ -38,7 +38,7 @@ pub async fn load_jre<D: Send + Sync>(
     }
 
     launcher_data.log("Downloading JRE...");
-    launcher_data.progress_update(ProgressUpdate::set_label("Download JRE..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("正在下载 JRE..."));
 
     jre_downloader::jre_download(
         &runtimes_folder,

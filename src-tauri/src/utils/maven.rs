@@ -25,7 +25,7 @@ pub fn get_maven_artifact_path(artifact_id: &String) -> Result<String> {
 
     if split.len() != 3 {
         return Err(LauncherError::InvalidVersionProfile(format!(
-            "Invalid artifact name: {}",
+            "无效的构件名称：{}",
             artifact_id
         ))
         .into());

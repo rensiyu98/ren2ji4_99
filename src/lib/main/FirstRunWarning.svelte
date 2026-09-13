@@ -9,21 +9,21 @@
 </script>
 
 <SettingsContainer
-        title="Welcome to LiquidBounce!"
+        title="欢迎使用 LiquidBounce！"
         on:hideSettings={() => dispatch('hide')}
 >
     <Description
-            description="During the first launch or when a new update of LiquidBounce is available, a download window will show up. This is our way of generating advertising revenue for the client. If you do not want to see advertisements, you can purchase LiquidBounce Premium. You might also want to check out the quick start guide for tips on how to use LiquidBounce."
+            description="首次启动时，或有 LiquidBounce 新更新可用时，会弹出一个下载窗口。这是我们为客户端赚取广告收入的方式。如果你不想看到广告，可以购买 LiquidBounce 高级版。你也可以查看快速入门指南，了解使用 LiquidBounce 的技巧。"
     />
 
     <ButtonSetting
-            text="Quick Start Guide"
+            text="快速入门指南"
             on:click={() => openUrl("https://liquidbounce.net/docs/get-started")}
             color="#B83529"
     />
 
     <ButtonSetting
-            text="Continue"
+            text="继续"
             on:click={() => dispatch('continue')}
             color="#4677FF"
     />

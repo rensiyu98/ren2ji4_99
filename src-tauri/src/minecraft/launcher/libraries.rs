@@ -35,7 +35,7 @@ pub async fn setup_libraries<D: Send + Sync>(
         .collect::<Vec<_>>();
     let libraries_max = libraries_to_download.len() as u64;
 
-    launcher_data.progress_update(ProgressUpdate::set_label("Checking libraries..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("正在检查依赖库..."));
     launcher_data.progress_update(ProgressUpdate::set_for_step(
         ProgressUpdateSteps::DownloadLibraries,
         0,
@@ -75,26 +75,26 @@ pub async fn setup_libraries<D: Send + Sync>(
                                     .await
                                     .with_context(|| {
                                         format!(
-                                            "Failed to download native library: {}",
+                                            "下载 native 库失败：{}",
                                             &library.name
                                         )
                                     })?;
 
                                 launcher_data.progress_update(ProgressUpdate::set_label(
-                                    "Extracting natives...",
+                                    "正在解压 natives...",
                                 ));
                                 let file = OpenOptions::new()
                                     .read(true)
                                     .open(path)
                                     .await
-                                    .context("Failed to open native library")?;
+                                    .context("打开 native 库失败")?;
                                 zip_extract(file, &native_clone)
                                     .await
-                                    .context("Failed to extract native library")?;
+                                    .context("解压 native 库失败")?;
                             }
                         } else {
                             return Err(LauncherError::InvalidVersionProfile(
-                                "missing classifiers, but natives required.".to_string(),
+                                "缺少 classifiers，但需要 natives。".to_string(),
                             )
                             .into());
                         }
@@ -117,7 +117,7 @@ pub async fn setup_libraries<D: Send + Sync>(
                         ));
                     })
                     .await
-                    .with_context(|| format!("Failed to download library: {}", &library.name))?;
+                    .with_context(|| format!("下载依赖库失败：{}", &library.name))?;
 
                 // Natives are not included in the classpath
                 return if library.natives.is_none() {

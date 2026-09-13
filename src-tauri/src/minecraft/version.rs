@@ -55,11 +55,11 @@ impl VersionManifest {
         let response = HTTP_CLIENT.get("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
             .send()
             .await
-            .context("Connection to https://piston-meta.mojang.com/ failed. Check your internet connection.")?
+            .context("连接 https://piston-meta.mojang.com/ 失败。请检查你的网络连接。")?
             .error_for_status()
-            .context("https://piston-meta.mojang.com/ returned with an error code, try again later!")?;
+            .context("https://piston-meta.mojang.com/ 返回了错误代码，请稍后重试！")?;
         let manifest = response.json::<VersionManifest>().await.context(
-            "Failed to parse Version Manifest, Mojang Server responded with not valid format.",
+            "解析版本清单失败，Mojang 服务器返回了无效格式。",
         )?;
 
         Ok(manifest)
@@ -123,7 +123,7 @@ impl VersionProfile {
                     Self::merge_options(&mut v14_a.minecraft_arguments, v14_b.minecraft_arguments);
                 } else {
                     return Err(LauncherError::InvalidVersionProfile(
-                        "version profile inherits from incompatible profile".to_string(),
+                        "版本配置继承自不兼容的配置".to_string(),
                     )
                         .into());
                 }
@@ -134,7 +134,7 @@ impl VersionProfile {
                     v21_a.arguments.jvm.append(&mut v21_b.arguments.jvm);
                 } else {
                     return Err(LauncherError::InvalidVersionProfile(
-                        "version profile inherits from incompatible profile".to_string(),
+                        "版本配置继承自不兼容的配置".to_string(),
                     )
                         .into());
                 }
@@ -266,7 +266,7 @@ impl ArgumentDeclaration {
                         .as_ref()
                         .ok_or_else(|| {
                             LauncherError::InvalidVersionProfile(
-                                "no game arguments specified".to_string(),
+                                "未指定游戏参数".to_string(),
                             )
                         })?
                         .split(" ")
@@ -326,12 +326,12 @@ impl VersionProfile {
             .get(url)
             .send()
             .await
-            .context(format!("failed to pull version profile from {}", url))?
+            .context(format!("无法从 {} 拉取版本配置", url))?
             .error_for_status()
-            .context(format!("{} responded with error code.", url))?
+            .context(format!("{} 返回了错误代码。", url))?
             .json::<VersionProfile>()
             .await
-            .context(format!("{} responded with not valid format.", url))?;
+            .context(format!("{} 返回了无效格式。", url))?;
 
         Ok(version_profile)
     }
@@ -473,7 +473,7 @@ impl AssetObject {
 
         if !asset_path.exists() {
             progress.progress_update(ProgressUpdate::set_label(format!(
-                "Downloading asset object {}",
+                "正在下载资源对象 {}",
                 self.hash
             )));
 
@@ -634,7 +634,7 @@ impl LibraryDownloadInfo {
             .error_for_status()?
             .text()
             .await
-            .context("Failed to fetch SHA1 of library")
+            .context("获取依赖库的 SHA1 失败")
     }
 
     pub async fn download(
@@ -646,12 +646,12 @@ impl LibraryDownloadInfo {
         let library_path = libraries_folder.join(&self.path);
         let parent = library_path
             .parent()
-            .context("Failed to get parent of library path")?;
+            .context("无法获取依赖库路径的父目录")?;
 
         // Create parent directories
         fs::create_dir_all(parent)
             .await
-            .context("Failed to create parent directories for library")?;
+            .context("创建依赖库的父目录失败")?;
 
         // SHA1
         let sha1 = if let Some(sha1) = &self.sha1 {
@@ -679,7 +679,7 @@ impl LibraryDownloadInfo {
         // Check if library already exists
         if library_path.exists() {
             // Check if sha1 matches
-            let hash = sha1sum(&library_path).context("Failed to calculate SHA1 of library")?;
+            let hash = sha1sum(&library_path).context("计算依赖库的 SHA1 失败")?;
 
             if let Some(sha1) = &sha1 {
                 if hash == *sha1 {
@@ -703,12 +703,12 @@ impl LibraryDownloadInfo {
             ));
             fs::remove_file(&library_path)
                 .await
-                .context("Failed to remove library file")?;
+                .context("删除依赖库文件失败")?;
         }
 
         // Download library
         progress.progress_update(ProgressUpdate::set_label(format!(
-            "Downloading library {}",
+            "正在下载依赖库 {}",
             name
         )));
         progress.log(&format!(
@@ -722,13 +722,13 @@ impl LibraryDownloadInfo {
 
         download_file_untracked(&self.url, &library_path)
             .await
-            .context("Failed to download library")?;
+            .context("下载依赖库失败")?;
 
         // After downloading, check SHA1
         if let Some(sha1) = &sha1 {
-            let hash = sha1sum(&library_path).context("Failed to calculate SHA1 of library")?;
+            let hash = sha1sum(&library_path).context("计算依赖库的 SHA1 失败")?;
             if hash != *sha1 {
-                anyhow::bail!("SHA1 of library {} does not match.", name);
+                anyhow::bail!("依赖库 {} 的 SHA1 不匹配。", name);
             }
         }
 

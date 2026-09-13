@@ -1,7 +1,7 @@
 <script>
     import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 
-    export let text = "Copy to clipboard";
+    export let text = "复制到剪贴板";
     export let textToCopy;
     export let iconOnly = false;
 
@@ -18,12 +18,12 @@
     }
 </script>
 
-<button class="button {iconOnly ? 'icon-only' : ''}" on:click={handleCopy} title={iconOnly ? (copied ? 'Copied!' : text) : ''}>
+<button class="button {iconOnly ? 'icon-only' : ''}" on:click={handleCopy} title={iconOnly ? (copied ? '已复制！' : text) : ''}>
     <div class="icon">
-        <img src="img/icon/icon-copy-to-clipboard.svg" alt="Copy icon" class={iconOnly ? 'white-icon' : ''}>
+        <img src="img/icon/icon-copy-to-clipboard.svg" alt="复制图标" class={iconOnly ? 'white-icon' : ''}>
     </div>
     {#if !iconOnly}
-        <div class="text">{copied ? 'Copied!' : text}</div>
+        <div class="text">{copied ? '已复制！' : text}</div>
     {/if}
 </button>
 

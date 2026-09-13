@@ -44,7 +44,7 @@ pub async fn open_download_page(
     launcher_data: &LauncherData<ShareableWindow>,
 ) -> Result<String> {
     let download_page: Url = url.parse()
-        .context("Failed to parse download page URL")?;
+        .context("无法解析下载页面 URL")?;
 
     let mut count = 0;
 
@@ -52,15 +52,15 @@ pub async fn open_download_page(
         count += 1;
 
         if count > MAX_DOWNLOAD_ATTEMPTS {
-            bail!("Failed to open download page after {} attempts.\n\n\
-            Please do not close the download window. Instead proceed with the download by pressing on 'Continue' and then 'Download'.\n\n\
-            If the download window does not appear, please try restarting LiquidLauncher with administrator privileges.\n\
-            If this does not help, please install LiquidBounce manually (https://liquidbounce.net/docs/get-started/manual-installation).\n\
-            Or try our advice at https://liquidbounce.net/docs/tutorials/fixing-liquidlauncher.", MAX_DOWNLOAD_ATTEMPTS);
+            bail!("在 {} 次尝试后仍未能打开下载页面。\n\n\
+            请不要关闭下载窗口。请改为点击 “Continue”，然后点击 “Download” 来完成下载。\n\n\
+            如果下载窗口没有出现，请尝试以管理员权限重启 LiquidLauncher。\n\
+            如果仍然无效，请手动安装 LiquidBounce（https://liquidbounce.net/docs/get-started/manual-installation）。\n\
+            或尝试我们关于修复 LiquidLauncher 的建议：https://liquidbounce.net/docs/tutorials/fixing-liquidlauncher。", MAX_DOWNLOAD_ATTEMPTS);
         }
 
         launcher_data.progress_update(ProgressUpdate::SetLabel(format!(
-            "Opening download page... (Attempt {}/{})",
+            "正在打开下载页面...（第 {}/{} 次尝试）",
             count, MAX_DOWNLOAD_ATTEMPTS
         )));
 
@@ -86,7 +86,7 @@ async fn show_webview(url: Url, window: &Arc<Mutex<tauri::Window>>) -> Result<St
     let len = app.webview_windows().len();
 
     let download_view = WebviewWindowBuilder::new(app, format!("download_view-{}", len), WebviewUrl::External(url))
-        .title("Download of LiquidBounce JAR")
+        .title("下载 LiquidBounce JAR")
         .visible(true)
         .always_on_top(true)
         .maximized(true)
@@ -178,7 +178,7 @@ pub async fn show_msa_login_webview(window: &ShareableWindow, authorize_url: Url
         let len = app.webview_windows().len();
 
         WebviewWindowBuilder::new(app, format!("msa_login-{}", len), WebviewUrl::External(authorize_url))
-            .title("Sign in with Microsoft")
+            .title("使用 Microsoft 登录")
             .visible(true)
             .always_on_top(true)
             .inner_size(480.0, 650.0)
@@ -222,16 +222,16 @@ pub async fn show_msa_login_webview(window: &ShareableWindow, authorize_url: Url
 
         if cloned_close_request.load(Ordering::SeqCst) {
             let _ = login_view.hide();
-            bail!("Microsoft sign-in window was closed before completing sign-in.");
+            bail!("Microsoft 登录窗口在完成登录前被关闭。");
         }
 
         if login_view.is_visible().is_err() {
-            bail!("Microsoft sign-in window was closed unexpectedly.");
+            bail!("Microsoft 登录窗口意外关闭。");
         }
 
         if start.elapsed() > MSA_LOGIN_TIMEOUT {
             let _ = login_view.destroy();
-            bail!("Microsoft sign-in timed out.");
+            bail!("Microsoft 登录超时。");
         }
     };
 

@@ -8,7 +8,7 @@
     import ButtonSetting from "../settings/ButtonSetting.svelte";
     
     export let error = {
-        message: "Unknown error",
+        message: "未知错误",
         error: null
     };
 </script>
@@ -20,13 +20,13 @@
     </TitleBar>
 
     <div class="error-container">
-        <h1>Error Occurred</h1>
+        <h1>发生错误</h1>
         <p class="error-message">{error.message}</p>
         
         {#if error.error}
             <div class="error-details">
                 <div class="error-header">
-                    <h3>Technical Details:</h3>
+                    <h3>技术细节：</h3>
                     <div class="copy-button">
                         <ButtonCopyClipboard textToCopy={JSON.stringify(error)} iconOnly={true} />
                     </div>
@@ -36,8 +36,8 @@
         {/if}
 
         <div class="help-buttons">
-            <ButtonSetting text="Quick Help" color="#4677ff" on:click={() => openUrl('https://liquidbounce.net/docs/Tutorials/Fixing%20LiquidLauncher')}></ButtonSetting>
-            <ButtonSetting text="Contact Support" color="#45a049" on:click={() => openUrl('https://ccbluex.net/contact')}></ButtonSetting>
+            <ButtonSetting text="快速帮助" color="#4677ff" on:click={() => openUrl('https://liquidbounce.net/docs/Tutorials/Fixing%20LiquidLauncher')}></ButtonSetting>
+            <ButtonSetting text="联系支持" color="#45a049" on:click={() => openUrl('https://ccbluex.net/contact')}></ButtonSetting>
         </div>
     </div>
 </VerticalFlexWrapper>

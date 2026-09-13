@@ -25,31 +25,31 @@
     </TitleBar>
 
     <div class="warning-container">
-        <h1>Security Warning</h1>
+        <h1>安全警告</h1>
         <p class="warning-message">
-            LiquidLauncher is unable to connect to the secure (HTTPS) API endpoint, 
-            but was able to establish a connection to a non-secure (HTTP) endpoint.
+            LiquidLauncher 无法连接到安全（HTTPS）API 端点，
+            但可以连接到非安全（HTTP）端点。
         </p>
-        
+
         <div class="warning-details">
-            <h3>Security Risks:</h3>
+            <h3>安全风险：</h3>
             <ul>
-                <li>Your connection is not encrypted and may be visible to others on your network</li>
-                <li>Data sent and received could be intercepted or modified by malicious actors</li>
-                <li>Your login credentials could be compromised if transmitted over this connection</li>
+                <li>你的连接未加密，网络中的其他人可能看到你的数据</li>
+                <li>发送和接收的数据可能被恶意行为者拦截或篡改</li>
+                <li>通过此连接传输的登录凭据可能会泄露</li>
             </ul>
-            
-            <h3 class="recommendation">Recommendation:</h3>
+
+            <h3 class="recommendation">建议：</h3>
             <p>
-                This issue is often caused by network restrictions or SSL certificate problems. 
-                We recommend using a VPN such as Cloudflare WARP to establish a secure connection.
+                此问题通常由网络限制或 SSL 证书问题引起。
+                我们建议使用 Cloudflare WARP 等 VPN 来建立安全连接。
             </p>
         </div>
 
         <div class="action-buttons">
-            <ButtonSetting text="Get Cloudflare WARP" color="#4677ff" on:click={() => openUrl('https://1.1.1.1/')}></ButtonSetting>
-            <ButtonSetting text="Allow Non-Secure Connection" color="#B83529" on:click={handleAllowConnection}></ButtonSetting>
-            <ButtonSetting text="Cancel" color="#707070" on:click={handleCancel}></ButtonSetting>
+            <ButtonSetting text="获取 Cloudflare WARP" color="#4677ff" on:click={() => openUrl('https://1.1.1.1/')}></ButtonSetting>
+            <ButtonSetting text="允许非安全连接" color="#B83529" on:click={handleAllowConnection}></ButtonSetting>
+            <ButtonSetting text="取消" color="#707070" on:click={handleCancel}></ButtonSetting>
         </div>
     </div>
 </VerticalFlexWrapper>

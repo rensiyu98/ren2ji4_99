@@ -40,12 +40,12 @@
 
     {#if running}
         <div class="running-button-wrapper">
-            <ButtonLaunchArea text="Terminate" active={true} on:click={() => dispatch("terminate")} /> 
-            <ButtonLaunchArea text="Log" active={false} on:click={() => dispatch("showClientLog")} />  
+            <ButtonLaunchArea text="结束进程" active={true} on:click={() => dispatch("terminate")} />
+            <ButtonLaunchArea text="日志" active={false} on:click={() => dispatch("showClientLog")} />
         </div>
     {:else}
         <ButtonLaunchArea
-                text="Launch LiquidBounce"
+                text="启动 LiquidBounce"
                 active={false}
                 disabled={!canLaunch}
                 on:click={() => dispatch("launch")}

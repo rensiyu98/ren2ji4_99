@@ -73,7 +73,7 @@ pub async fn find_java_binary(
         }
     }
 
-    Err(anyhow::anyhow!("Failed to find JRE"))
+    Err(anyhow::anyhow!("未找到 JRE"))
 }
 
 /// Download specific JRE to runtimes
@@ -103,7 +103,7 @@ where
         OperatingSystem::LINUX | OperatingSystem::OSX => {
             tar_gz_extract(cursor, runtime_path.as_path()).await?
         }
-        _ => bail!("Unsupported OS"),
+        _ => bail!("不支持的操作系统"),
     }
 
     // Find JRE afterwards

@@ -100,7 +100,7 @@ impl Client {
                     // of the error
                     let err = Into::<Error>::into(err);
                     technical_information.push_str(&format!(
-                        "Failed to connect to API endpoint '{}': {:?}\n",
+                        "无法连接到 API 端点 '{}'：{:?}\n",
                         endpoint, err
                     ));
                     error!(
@@ -115,7 +115,7 @@ impl Client {
                     let is_success = status.is_success();
                     if !is_success {
                         technical_information.push_str(&format!(
-                            "API endpoint '{}' returned status code: {}\n",
+                            "API 端点 '{}' 返回状态码：{}\n",
                             endpoint, status
                         ));
                         error!(

@@ -14,7 +14,7 @@
 <button class="button" type="button" on:click={handleClick}>
     <ToolTip {text} />
 
-    <img class="icon" src="img/icon/social/icon-{icon}.svg" alt="icon"> 
+    <img class="icon" src="img/icon/social/icon-{icon}.svg" alt="图标">
 </button>
 
 <style>

@@ -54,7 +54,7 @@ pub(crate) async fn launch(
 
     launcher_data.progress_update(ProgressUpdate::set_max());
     launcher_data.progress_update(ProgressUpdate::SetProgress(0));
-    launcher_data.progress_update(ProgressUpdate::set_label("Loading version manifest..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("正在加载版本清单..."));
 
     let mc_version_manifest = VersionManifest::fetch
         .retry(ExponentialBuilder::default())
@@ -103,7 +103,7 @@ pub(crate) async fn launch(
     )
     .await?;
 
-    launcher_data.progress_update(ProgressUpdate::set_label("Loading version profile..."));
+    launcher_data.progress_update(ProgressUpdate::set_label("正在加载版本配置..."));
     let manifest_url = match subsystem {
         LoaderSubsystem::Fabric { manifest, .. } => manifest
             .replace("{MINECRAFT_VERSION}", &build.mc_version)
@@ -131,7 +131,7 @@ pub(crate) async fn launch(
             .map(|x| &x.url)
             .ok_or_else(|| {
                 LauncherError::InvalidVersionProfile(format!(
-                    "unable to find inherited version manifest {}",
+                    "找不到继承的版本清单 {}",
                     inherited_version
                 ))
             })?;
@@ -158,7 +158,7 @@ pub(crate) async fn launch(
     }
 
     launcher_data.progress_update(ProgressUpdate::set_label(format!(
-        "Launching {}...",
+        "正在启动 {}...",
         launch_manifest.build.commit_id
     )));
     launcher::launch(
@@ -212,18 +212,18 @@ pub async fn retrieve_and_copy_mods(
 
     fs::create_dir_all(&mod_cache_path).await.with_context(|| {
         format!(
-            "Failed to create mod cache directory {}",
+            "创建模组缓存目录失败：{}",
             mod_cache_path.display()
         )
     })?;
     fs::create_dir_all(&mods_path)
         .await
-        .with_context(|| format!("Failed to create mods directory {}", mods_path.display()))?;
+        .with_context(|| format!("创建模组目录失败：{}", mods_path.display()))?;
     fs::create_dir_all(&mod_custom_path)
         .await
         .with_context(|| {
             format!(
-                "Failed to create custom mods directory {}",
+                "创建自定义模组目录失败：{}",
                 mod_custom_path.display()
             )
         })?;
@@ -249,16 +249,16 @@ pub async fn retrieve_and_copy_mods(
             // Copy the mod.
             fs::copy(path, mods_path.join(file_name))
                 .await
-                .with_context(|| format!("Failed to copy custom mod {}", current_mod.name))?;
+                .with_context(|| format!("复制自定义模组 {} 失败", current_mod.name))?;
             launcher_data.progress_update(ProgressUpdate::set_label(format!(
-                "Copied custom mod {}",
+                "已复制自定义模组 {}",
                 current_mod.name
             )));
             continue;
         }
 
         launcher_data.progress_update(ProgressUpdate::set_label(format!(
-            "Downloading recommended mod {}",
+            "正在下载推荐模组 {}",
             current_mod.name
         )));
 
@@ -280,7 +280,7 @@ pub async fn retrieve_and_copy_mods(
                         current_mod.name, url
                     ));
                     launcher_data.progress_update(ProgressUpdate::set_label(format!(
-                        "Opening download page for mod {}",
+                        "正在为模组 {} 打开下载页面",
                         current_mod.name
                     )));
 
@@ -288,14 +288,14 @@ pub async fn retrieve_and_copy_mods(
                         Some(account) => {
                             // PID is taken from the URL which is the last part of the URL
                             // https://dl.liquidbounce.net/skip/c7kMT2q00U -> c7kMT2q00U
-                            let pid = url.split('/').last().context("Failed to get PID")?;
+                            let pid = url.split('/').last().context("无法获取 PID")?;
                             let skip_file_resolve =
                                 client.resolve_skip_file(account, pid).await?;
-                            
-                            // If the skip file resolve has a target PID, use it - 
+
+                            // If the skip file resolve has a target PID, use it -
                             // if not, it means that the account is not allowed for direct downloads
                             skip_file_resolve.target_pid.ok_or_else(|| {
-                                anyhow!("Failed to get direct URL for mod {}", current_mod.name)
+                                anyhow!("无法获取模组 {} 的直接下载链接", current_mod.name)
                             })?
                         }
                         None => open_download_page(url, launcher_data).await?,
@@ -308,7 +308,7 @@ pub async fn retrieve_and_copy_mods(
                         current_mod.name, url
                     ));
                     launcher_data.progress_update(ProgressUpdate::set_label(format!(
-                        "Downloading mod {}",
+                        "正在下载模组 {}",
                         current_mod.name
                     )));
                     
@@ -337,7 +337,7 @@ pub async fn retrieve_and_copy_mods(
                             })
                             .ok_or_else(|| {
                                 LauncherError::InvalidVersionProfile(
-                                    "There is no JAR in the downloaded archive".to_string(),
+                                    "下载的压缩包中没有 JAR 文件".to_string(),
                                 )
                             })?;
                         let entry = &reader.file().entries()[index_of_file_to_extract];
@@ -363,7 +363,7 @@ pub async fn retrieve_and_copy_mods(
                     let repository_url =
                         manifest.repositories.get(repository).ok_or_else(|| {
                             LauncherError::InvalidVersionProfile(format!(
-                                "There is no repository specified with the name {}",
+                                "没有名为 {} 的仓库",
                                 repository
                             ))
                         })?;
@@ -382,12 +382,12 @@ pub async fn retrieve_and_copy_mods(
 
                     retrieved_bytes
                 }
-                _ => bail!("unsupported mod source: {:?}", current_mod.source),
+                _ => bail!("不支持的模组来源：{:?}", current_mod.source),
             };
 
             fs::write(&current_mod_path, contents)
                 .await
-                .with_context(|| format!("Failed to write mod {}", current_mod.name))?;
+                .with_context(|| format!("写入模组 {} 失败", current_mod.name))?;
         }
 
         // Copy the mod.
@@ -396,7 +396,7 @@ pub async fn retrieve_and_copy_mods(
             mods_path.join(format!("{}.jar", current_mod.name)),
         )
         .await
-        .with_context(|| format!("Failed to copy mod {}", current_mod.name))?;
+        .with_context(|| format!("复制模组 {} 失败", current_mod.name))?;
     }
 
     Ok(())

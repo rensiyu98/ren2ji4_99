@@ -51,7 +51,7 @@ pub async fn setup_client_jar<D: Send + Sync>(
 
         if requires_download {
             launcher_data.log("Downloading client...");
-            launcher_data.progress_update(ProgressUpdate::set_label("Downloading client..."));
+            launcher_data.progress_update(ProgressUpdate::set_label("正在下载客户端..."));
 
             let retrieved_bytes = download_file(&client_download.url, |a, b| {
                 launcher_data.progress_update(ProgressUpdate::set_for_step(
@@ -64,7 +64,7 @@ pub async fn setup_client_jar<D: Send + Sync>(
 
             fs::write(&client_jar, retrieved_bytes)
                 .await
-                .context("Failed to write client JAR")?;
+                .context("写入客户端 JAR 失败")?;
 
             // After downloading, check sha1
             let hash = sha1sum(&client_jar)?;
@@ -73,7 +73,7 @@ pub async fn setup_client_jar<D: Send + Sync>(
                 hash, client_download.sha1
             ));
             if hash != client_download.sha1 {
-                bail!("Client JAR download failed. SHA1 mismatch.");
+                bail!("客户端 JAR 下载失败，SHA1 不匹配。");
             }
         }
 
@@ -81,11 +81,11 @@ pub async fn setup_client_jar<D: Send + Sync>(
         if !natives_folder.exists() {
             fs::create_dir_all(&natives_folder)
                 .await
-                .context("Failed to create natives folder")?;
+                .context("创建 natives 目录失败")?;
         }
     } else {
         return Err(LauncherError::InvalidVersionProfile(
-            "No client JAR downloads were specified.".to_string(),
+            "未指定客户端 JAR 的下载信息。".to_string(),
         )
         .into());
     }

@@ -21,15 +21,15 @@ use thiserror::Error;
 
 #[derive(Error, Debug)]
 pub enum LauncherError {
-    #[error("Invalid version profile: {0}")]
+    #[error("无效的版本配置：{0}")]
     InvalidVersionProfile(String),
-    #[error("Unknown template parameter: {0}")]
+    #[error("未知的模板参数：{0}")]
     UnknownTemplateParameter(String),
 }
 
 pub fn map_into_connection_error(e: Error) -> Error {
     anyhow!(
-        "Failed to download file. This might have been caused by connection issues. Please try using a VPN such as Cloudflare Warp.\n\nError: {}",
+        "文件下载失败。这可能是网络连接问题导致的。请尝试使用 Cloudflare WARP 等 VPN。\n\n错误：{}",
         e
     )
 }

@@ -29,10 +29,10 @@
     <div class="title">{title}</div>
     <div class="wrapper">
         <input class="input" type="text" {placeholder} bind:value={value} />
-        <button type="button" class="button-directory" title="Select directory" on:click={handleDirectorySelect}>
+        <button type="button" class="button-directory" title="选择目录" on:click={handleDirectorySelect}>
             <img src="img/icon/icon-directory-choose.svg" alt="choose">
         </button>
-        <button type="button" class="button-directory" title="Open directory" on:click={handleDirectoryOpen}>
+        <button type="button" class="button-directory" title="打开目录" on:click={handleDirectoryOpen}>
             <img src="img/icon/icon-directory-open.svg" alt="open">
         </button>
     </div>

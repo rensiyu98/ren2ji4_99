@@ -18,10 +18,10 @@
     async function clearData() {
         try {
             await invoke("clear_data", { options });
-            alert("Data cleared.");
+            alert("数据已清除。");
         } catch (error) {
             console.error("Failed to clear data:", error);
-            alert(`Failed to clear data: ${error}`);
+            alert(`清除数据失败：${error}`);
         }
     }
 
@@ -32,7 +32,7 @@
             await options.store();
         } catch (error) {
             console.error("Logout failed:", error);
-            alert("Failed to logout properly. Please try again.");
+            alert("退出登录失败，请重试。");
         }
     }
 
@@ -58,11 +58,11 @@
 </script>
 
 <SelectSetting
-    title="JVM Distribution"
+    title="JVM 发行版"
     items={[
-        { value: "automatic", text: "Automatic" },
-        { value: "manual", text: "Manual" },
-        { value: "custom", text: "Custom" },
+        { value: "automatic", text: "自动" },
+        { value: "manual", text: "手动" },
+        { value: "custom", text: "自定义" },
     ]}
     on:change={resetJavaDistribution}
     bind:value={options.start.javaDistribution.type}
@@ -70,7 +70,7 @@
 
 {#if options.start.javaDistribution.type === "manual"}
     <SelectSetting
-        title="Distribution"
+        title="发行版"
         items={[
             { value: "temurin", text: "Eclipse Temurin" },
             { value: "graalvm", text: "GraalVM" },
@@ -82,23 +82,23 @@
 
 {#if options.start.javaDistribution.type === "custom"}
     <FileSelectorSetting
-        title="Custom JVM Path"
-        placeholder="Select Java wrapper location"
+        title="自定义 JVM 路径"
+        placeholder="选择 Java 包装器位置"
         bind:value={options.start.javaDistribution.value}
         filters={[{ name: "java", extensions: [] }]}
-        windowTitle="Select custom Java wrapper"
+        windowTitle="选择自定义 Java 包装器"
     />
 {/if}
 
 <DirectorySelectorSetting
-    title="Data Location"
+    title="数据目录"
     placeholder={defaultDataFolder}
     bind:value={options.start.customDataPath}
-    windowTitle="Select custom data directory"
+    windowTitle="选择自定义数据目录"
 />
 
 <RangeSetting
-    title="Memory"
+    title="内存"
     min={2048}
     max={systemMemory}
     bind:value={options.start.memory}
@@ -107,26 +107,26 @@
 />
 
 <RangeSetting
-    title="Concurrent Downloads"
+    title="并发下载数"
     min={1}
     max={50}
     bind:value={options.launcher.concurrentDownloads}
-    valueSuffix=" connections"
+    valueSuffix=" 个连接"
     step={1}
 />
 
 <ToggleSetting
-    title="Keep launcher running"
+    title="保持启动器运行"
     disabled={false}
     bind:value={options.launcher.keepLauncherOpen}
 />
 
 <ButtonSetting
-    text="Sign out of Minecraft Account"
+    text="退出 Minecraft 账户"
     on:click={logout}
     color="#4677FF"
 />
 
-<ButtonSetting text="Clear Data" on:click={clearData} color="#B83529" />
+<ButtonSetting text="清除数据" on:click={clearData} color="#B83529" />
 
 <LauncherVersion version={launcherVersion} />

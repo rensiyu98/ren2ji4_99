@@ -33,7 +33,7 @@ impl JavaRuntime {
 
     pub async fn execute(&self, arguments: Vec<String>, game_dir: &Path) -> Result<Child> {
         if !self.0.exists() {
-            bail!("Java runtime not found at: {}", self.0.display());
+            bail!("未找到位于 {} 的 Java 运行时", self.0.display());
         }
 
         debug!("Executing Java runtime: {}", self.0.display());
@@ -81,7 +81,7 @@ impl JavaRuntime {
 
                     debug!("Process exited with code: {}", code);
                     if code != 0 && code != -1073740791 { // -1073740791 = happens when the process is killed forcefully, we don't want to bail in this case
-                        bail!("Process exited with non-zero exit code: {}.", code);
+                        bail!("进程以非零退出代码结束：{}。", code);
                     }
                     break;
                 },

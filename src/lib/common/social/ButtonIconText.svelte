@@ -12,7 +12,7 @@
 
 <button class="button" on:click={handleClick}>
     <div class="icon">
-        <img src="img/icon/social/icon-{icon}.svg" alt="icon"> 
+        <img src="img/icon/social/icon-{icon}.svg" alt="图标">
     </div>
     <div class="text">{text}</div>
 </button>

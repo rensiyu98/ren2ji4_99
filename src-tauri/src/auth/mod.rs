@@ -47,7 +47,7 @@ impl ClientAccount {
         request: reqwest::RequestBuilder,
     ) -> Result<reqwest::RequestBuilder> {
         if self.is_expired() {
-            bail!("Your client account session has expired! Re-login!");
+            bail!("你的客户端账户会话已过期！请重新登录！");
         }
 
         Ok(request.bearer_auth(self.access_token.secret()))
@@ -120,17 +120,17 @@ impl ClientAccountAuthenticator {
             .await?;
 
         debug!("OAuth returned the following token:\n{token:?}\n");
-        let expires_at = SystemTime::now() + token.expires_in().context("Missing expires_in")?;
+        let expires_at = SystemTime::now() + token.expires_in().context("缺少 expires_in")?;
 
         Ok(ClientAccount {
             access_token: token.access_token().clone(),
             expires_at: expires_at
                 .duration_since(UNIX_EPOCH)
-                .context("Time went backwards")?
+                .context("系统时间异常")?
                 .as_secs(),
             refresh_token: token
                 .refresh_token()
-                .context("Missing refresh token")?
+                .context("缺少刷新令牌")?
                 .clone(),
             user_information: None,
         })
@@ -145,17 +145,17 @@ impl ClientAccountAuthenticator {
             .await?;
 
         debug!("OAuth returned the following token:\n{token:?}\n");
-        let expires_at = SystemTime::now() + token.expires_in().context("Missing expires_in")?;
+        let expires_at = SystemTime::now() + token.expires_in().context("缺少 expires_in")?;
 
         Ok(ClientAccount {
             access_token: token.access_token().clone(),
             expires_at: expires_at
                 .duration_since(UNIX_EPOCH)
-                .context("Time went backwards")?
+                .context("系统时间异常")?
                 .as_secs(),
             refresh_token: token
                 .refresh_token()
-                .context("Missing refresh token")?
+                .context("缺少刷新令牌")?
                 .clone(),
             user_information: None,
         })
@@ -184,9 +184,9 @@ impl ClientAccountAuthenticator {
     )> {
         let client_id = ClientId::new(OAUTH_CLIENT_ID.to_string());
         let auth_url =
-            AuthUrl::new(AUTH_URL.to_string()).context("Invalid authorization endpoint URL")?;
+            AuthUrl::new(AUTH_URL.to_string()).context("无效的授权端点 URL")?;
         let token_url =
-            TokenUrl::new(TOKEN_URL.to_string()).context("Invalid token endpoint URL")?;
+            TokenUrl::new(TOKEN_URL.to_string()).context("无效的令牌端点 URL")?;
 
         let client = BasicClient::new(client_id)
             .set_auth_uri(auth_url)
@@ -195,7 +195,7 @@ impl ClientAccountAuthenticator {
         let http_client = reqwest::ClientBuilder::new()
             .redirect(reqwest::redirect::Policy::none())
             .build()
-            .context("Client should build")?;
+            .context("HTTP 客户端构建失败")?;
 
         Ok((client, http_client))
     }
@@ -203,13 +203,13 @@ impl ClientAccountAuthenticator {
     async fn setup_local_redirect() -> Result<(RedirectUrl, TcpListener)> {
         let listener = TcpListener::bind("127.0.0.1:0")
             .await
-            .context("Failed to bind to a random port")?;
+            .context("绑定随机端口失败")?;
         let local_addr = listener
             .local_addr()
-            .context("Failed to get the local address")?;
+            .context("获取本地地址失败")?;
         let redirect_uri =
             RedirectUrl::new(format!("http://{}:{}/", local_addr.ip(), local_addr.port()))
-                .context("Invalid redirect URL")?;
+                .context("无效的重定向 URL")?;
 
         Ok((redirect_uri, listener))
     }
@@ -238,13 +238,13 @@ impl ClientAccountAuthenticator {
             .query_pairs()
             .find(|(key, _)| key == "code")
             .map(|(_, code)| AuthorizationCode::new(code.into_owned()))
-            .context("Missing code in the response")?;
+            .context("响应中缺少 code")?;
 
         let state = url
             .query_pairs()
             .find(|(key, _)| key == "state")
             .map(|(_, state)| CsrfToken::new(state.into_owned()))
-            .context("Missing state in the response")?;
+            .context("响应中缺少 state")?;
 
         let response = format!(
             "HTTP/1.1 200 OK\r\ncontent-type: text/html\r\ncontent-length: {}\r\n\r\n{}",

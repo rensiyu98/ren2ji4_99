@@ -30,7 +30,7 @@ pub async fn check_hosts_file() -> Result<()> {
     // Check if the hosts file has been modified
     let hosts_file = fs::read_to_string(&hosts_path)
         .await
-        .context(format!("Failed to read hosts file at {}", hosts_path))?;
+        .context(format!("无法读取位于 {} 的 hosts 文件", hosts_path))?;
 
     let flagged_entries = hosts_file
         .lines()
@@ -55,11 +55,11 @@ pub async fn check_hosts_file() -> Result<()> {
 
     if !flagged_entries.is_empty() {
         bail!(
-            "The hosts file has been modified to block the Minecraft authentication server.\n\
+            "hosts 文件已被修改，用于屏蔽 Minecraft 认证服务器。\n\
             \n\
-            Please remove the following entries from the hosts file:\n\
+            请从 hosts 文件中移除以下条目：\n\
             {}\n\n\
-            The file is located at:\n\
+            该文件位于：\n\
             {}",
             flagged_entries.join("\n"),
             hosts_path

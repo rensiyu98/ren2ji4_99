@@ -26,7 +26,7 @@
     <div class="title">{title}</div>
     <div class="wrapper">
         <input class="input" type="text" {placeholder} bind:value={value} />
-        <button type="button" class="button-file" title="Select file" on:click={handleFileSelect}>
+        <button type="button" class="button-file" title="选择文件" on:click={handleFileSelect}>
             <img src="img/icon/icon-file-choose.svg" alt="choose">
         </button>
     </div>

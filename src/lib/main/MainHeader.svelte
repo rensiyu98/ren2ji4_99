@@ -17,7 +17,7 @@
     <StatusBar>
         {#if !running}
             <TextStatus
-                    text="Welcome back, {account?.name}."
+                    text="欢迎回来，{account?.name}。"
             />
         {:else}
             <ProgressStatus {...progressState} />
