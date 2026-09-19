@@ -179,6 +179,21 @@ pub(crate) async fn launch(
 /// `liquidbounce-<version>.jar` so it looks native inside the mods folder.
 const LOCALIZED_CLIENT_FILE_NAME: &str = "liquidbounce-0.40.1.jar";
 
+/// Name the launch manifest gives the client entry itself.
+const CLIENT_MOD_NAME: &str = "LiquidBounce";
+
+/// Whether this mod is the client, delivered through the ad-gated `skip` source.
+///
+/// Upstream monetises the client by sending non-premium users to a download
+/// page, and `open_download_page` blocks until they have fetched the jar by
+/// hand. This build ships its own client, so going through that flow is both
+/// pointless and a dead end: it never returns on its own, and the bundled jar
+/// installed further down would never be reached.
+fn is_ad_gated_client(module: &LoaderMod) -> bool {
+    matches!(module.source, ModSource::SkipAd { .. })
+        && module.name.eq_ignore_ascii_case(CLIENT_MOD_NAME)
+}
+
 /// The localized client build, embedded in the launcher.
 ///
 /// Which build lands in `mods` is decided by a manifest fetched from the remote
@@ -292,6 +307,16 @@ pub async fn retrieve_and_copy_mods(
     for (mod_idx, current_mod) in mods.iter().enumerate() {
         // Skip mods that are not needed
         if !current_mod.required && !current_mod.enabled {
+            continue;
+        }
+
+        // The client is installed from the bundled jar instead, so there is no
+        // reason to send the user through the ad page for it.
+        if is_ad_gated_client(current_mod) {
+            launcher_data.log(&format!(
+                "Skipping ad-gated mod {} — this build bundles its own client",
+                current_mod.name
+            ));
             continue;
         }
 
