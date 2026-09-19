@@ -1,0 +1,10 @@
+/node_modules/
+/public/build/
+/dist
+/tauri
+
+# Rust 构建产物（数 GB，绝不入库）
+/src-tauri/target/
+
+.DS_Store
+.env
