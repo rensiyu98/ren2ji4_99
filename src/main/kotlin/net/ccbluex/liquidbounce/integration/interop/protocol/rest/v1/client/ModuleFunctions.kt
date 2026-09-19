@@ -44,35 +44,9 @@ import net.ccbluex.liquidbounce.features.module.ModuleManager.modulesConfig
 import net.ccbluex.liquidbounce.integration.interop.ClientInteropServer
 import net.ccbluex.liquidbounce.integration.interop.badRequest
 import net.ccbluex.liquidbounce.integration.interop.forbidden
-import net.ccbluex.liquidbounce.lang.moduleNameTranslation
-import net.ccbluex.liquidbounce.lang.settingNameTranslation
 import net.ccbluex.liquidbounce.utils.client.logger
 import net.ccbluex.liquidbounce.utils.kotlin.Minecraft
 import org.apache.commons.io.input.CharSequenceReader
-
-/**
- * Adds a `translatedName` next to every `name` in a serialized value group.
- *
- * Settings are stored and referenced by their English names, so the theme is
- * handed the localized label alongside instead of being asked to translate.
- * Groups nest as `name`/`value` pairs, hence the recursion.
- */
-private fun JsonObject.withTranslatedNames(isModule: Boolean = false): JsonObject {
-    get("name")?.takeIf { it.isJsonPrimitive }?.asString?.let {
-        addProperty(
-            "translatedName",
-            if (isModule) moduleNameTranslation(it) else settingNameTranslation(it)
-        )
-    }
-
-    get("value")?.takeIf { it.isJsonArray }?.asJsonArray?.forEach { element ->
-        if (element.isJsonObject) {
-            element.asJsonObject.withTranslatedNames()
-        }
-    }
-
-    return this
-}
 
 private fun ClientModule.toJsonObject() = JsonObject().apply {
     addProperty("name", name)
