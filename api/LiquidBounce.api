@@ -43,6 +43,7 @@ public class net/ccbluex/liquidbounce/config/types/Value {
 	public final fun getName ()Ljava/lang/String;
 	public final fun getNotAnOption ()Z
 	public final fun getTagValue ()Ljava/lang/Object;
+	public fun getTranslatedName ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/Object;
 	public final fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 	public final fun getValueType ()Lnet/ccbluex/liquidbounce/config/types/ValueType;
@@ -783,6 +784,7 @@ public class net/ccbluex/liquidbounce/features/module/ClientModule : net/ccbluex
 	public fun getRunning ()Z
 	public fun getSettings ()Ljava/util/Map;
 	public fun getTag ()Ljava/lang/String;
+	public fun getTranslatedName ()Ljava/lang/String;
 	public final fun message (Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;
 	public final fun onEnabledValueRegistration (Lnet/ccbluex/liquidbounce/config/types/Value;)Lnet/ccbluex/liquidbounce/config/types/Value;
 	public fun onRegistration ()V
@@ -958,6 +960,8 @@ public final class net/ccbluex/liquidbounce/integration/screen/ScreenManager : n
 }
 
 public final class net/ccbluex/liquidbounce/lang/LanguageKt {
+	public static final fun moduleNameTranslation (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun settingNameTranslation (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun translation (Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;
 }
 

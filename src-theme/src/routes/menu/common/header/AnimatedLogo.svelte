@@ -9,45 +9,49 @@
 </script>
 
 <div class="animated-logo">
-    <LiquidBounceLogo
-        width="261.263px"
-        height="98px"
-        badgeFill={`url(#${bannerGradientId})`}
-        badgeTextFill={`url(#${bannerTextGradientId})`}
-        badgeGroupClass="bounce-part"
-    >
-        <svelte:fragment slot="defs">
-            <linearGradient id={bannerGradientId} gradientUnits="userSpaceOnUse" spreadMethod="repeat"
-                            x1="48" y1="16" x2="372" y2="164">
-                <stop offset="0%" stop-color="var(--animated-logo-banner-start-color)"/>
-                <stop offset="50%" stop-color="var(--animated-logo-banner-middle-color)"/>
-                <stop offset="100%" stop-color="var(--animated-logo-banner-end-color)"/>
-                <animateTransform
-                        attributeName="gradientTransform"
-                        type="translate"
-                        dur="9.1s"
-                        repeatCount="indefinite"
-                        calcMode="linear"
-                        values="0 0; 324 148"
-                />
-            </linearGradient>
+    <div class="logo-column">
+        <LiquidBounceLogo
+            width="261.263px"
+            height="98px"
+            badgeFill={`url(#${bannerGradientId})`}
+            badgeTextFill={`url(#${bannerTextGradientId})`}
+            badgeGroupClass="bounce-part"
+        >
+            <svelte:fragment slot="defs">
+                <linearGradient id={bannerGradientId} gradientUnits="userSpaceOnUse" spreadMethod="repeat"
+                                x1="48" y1="16" x2="372" y2="164">
+                    <stop offset="0%" stop-color="var(--animated-logo-banner-start-color)"/>
+                    <stop offset="50%" stop-color="var(--animated-logo-banner-middle-color)"/>
+                    <stop offset="100%" stop-color="var(--animated-logo-banner-end-color)"/>
+                    <animateTransform
+                            attributeName="gradientTransform"
+                            type="translate"
+                            dur="9.1s"
+                            repeatCount="indefinite"
+                            calcMode="linear"
+                            values="0 0; 324 148"
+                    />
+                </linearGradient>
 
-            <linearGradient id={bannerTextGradientId} gradientUnits="userSpaceOnUse" spreadMethod="repeat"
-                            x1="72" y1="34" x2="324" y2="149">
-                <stop offset="0%" stop-color="var(--animated-logo-text-start-color)"/>
-                <stop offset="50%" stop-color="var(--animated-logo-text-middle-color)"/>
-                <stop offset="100%" stop-color="var(--animated-logo-text-end-color)"/>
-                <animateTransform
-                        attributeName="gradientTransform"
-                        type="translate"
-                        dur="7s"
-                        repeatCount="indefinite"
-                        calcMode="linear"
-                        values="0 0; 252 115"
-                />
-            </linearGradient>
-        </svelte:fragment>
-    </LiquidBounceLogo>
+                <linearGradient id={bannerTextGradientId} gradientUnits="userSpaceOnUse" spreadMethod="repeat"
+                                x1="72" y1="34" x2="324" y2="149">
+                    <stop offset="0%" stop-color="var(--animated-logo-text-start-color)"/>
+                    <stop offset="50%" stop-color="var(--animated-logo-text-middle-color)"/>
+                    <stop offset="100%" stop-color="var(--animated-logo-text-end-color)"/>
+                    <animateTransform
+                            attributeName="gradientTransform"
+                            type="translate"
+                            dur="7s"
+                            repeatCount="indefinite"
+                            calcMode="linear"
+                            values="0 0; 252 115"
+                    />
+                </linearGradient>
+            </svelte:fragment>
+        </LiquidBounceLogo>
+
+        <span class="slogan">ree</span>
+    </div>
 
     <div class="divider"></div>
 
@@ -61,6 +65,22 @@
     .animated-logo {
         display: flex;
         column-gap: 30px;
+    }
+
+    .logo-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 6px;
+    }
+
+    .slogan {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 6px;
+        line-height: 1;
+        color: var(--animated-logo-divider-color);
+        user-select: none;
     }
 
     .divider {
