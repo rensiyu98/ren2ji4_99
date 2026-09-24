@@ -58,26 +58,20 @@ jobs:
           bun install
           bun run build
 
-      - name: Build and release
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+      # 汉化版改动：不再使用 tauri-action 创建 GitHub Release。
+      # 该步骤依赖 release API，连续失败两次（权限不足 / Server Error），
+      # 而对产出安装包而言它并非必要，故改为直接构建 + 上传 artifact。
+      - name: Build (Tauri)
+        run: bun run tauri build
+
+      - name: List bundle output
+        run: ls -R src-tauri/target/release/bundle
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
         with:
-          args: >-
-            ${{ matrix.args }}
-          tagName: >-
-            ${{ startsWith(github.event.head_commit.message, 'release: ') && 'v__VERSION__' || format('v__VERSION__-{0}', github.sha) }}
-          releaseName: >-
-            ${{ startsWith(github.event.head_commit.message, 'release: ') && 'Release v__VERSION__' || format('Development build - {0}', github.sha) }}
-          releaseBody: >-
-            ${{ startsWith(github.event.head_commit.message, 'release: ') && 'See the assets to download and install this version.' || format('Development build from commit {0}
-
-            This is an automated build from the latest commit. It may be unstable.
-
-            Commit message: {1}', github.sha, github.event.head_commit.message) }}
-          releaseDraft: >-
-            ${{ startsWith(github.event.head_commit.message, 'release: ') }}
-          prerelease: >-
-            ${{ !startsWith(github.event.head_commit.message, 'release: ') }}
+          name: liquidlauncher-windows-zh-cn
+          path: |
+            src-tauri/target/release/bundle/nsis/*.exe
+            src-tauri/target/release/bundle/msi/*.msi
+          if-no-files-found: error
